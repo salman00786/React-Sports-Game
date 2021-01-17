@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>React Sports Game</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script
+      crossorigin
+      src="https://unpkg.com/react@16/umd/react.development.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"
+    ></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+    <script type="text/babel">
+      class Team extends React.Component {
+        constructor(props) {
+          super(props);
+
+          this.state = {
+            shots: 0,
+            score: 0,
+          };
+
+          this.shotSound = new Audio("./assets/Audios/yellwoowo.mp3");
+          this.scoreSound = new Audio("./assets/Audios/Home_Run.mp3");
+        }
+
+        shotHandler = (event) => {
+          if (Math.random() > 0.5) {
+            this.setState((state, props) => ({ score: state.score + 1 }));
+          }
+          this.setState((state, props) => ({ shots: state.shots + 1 }));
+          this.shotSound.play();
+        };
+        render() {
+          let shotPercentageDiv;
+
+          if (this.state.shots) {
+            const shotPercentage = Math.round(
+              (this.state.score / this.state.shots) * 100
+            );
+            shotPercentageDiv = (
+              <div>
+                <strong>Shooting Percentage: </strong>
+                {shotPercentage}%
+              </div>
+            );
+          }
+
+          return (
+            <div className="Team">
+              <h2> {this.props.name}</h2>
+              <div className="identity">
+                <img src={this.props.logo} alt={this.props.name} />
+              </div>
+              <div>
+                <strong>Shots:</strong>
+                {this.state.shots}
+              </div>
+              <div>
+                <strong>Score:</strong>
+                {this.state.score}
+              </div>
+              <div>{shotPercentageDiv}</div>
+              <button onClick={this.shotHandler}>Shoot!</button>
+            </div>
+          );
+        }
+      }
+
+      function Game(props) {
+        return (
+          <div className="Game">
+            <h1> Welcome to {props.venue}</h1>
+            <div className="TeamA">
+              <Team name={props.homeTeam.name} logo={props.homeTeam.logoSrc} />
+            </div>
+            <div className="TeamB">
+              <Team
+                name={props.visitingTeam.name}
+                logo={props.visitingTeam.logoSrc}
+              />
+            </div>
+          </div>
+        );
+      }
+
+      function App(props) {
+        const RMadrid = {
+          name: "Real Madrid",
+          logoSrc:
+            "https://cdn.freebiesupply.com/logos/large/2x/real-madrid-c-f-logo-png-transparent.png",
+        };
+
+        const Barca = {
+          name: "Barcelona",
+          logoSrc:
+            "https://assets.stickpng.com/images/584a9b3bb080d7616d298777.png",
+        };
+
+        const ManUtd = {
+          name: "Manchester United",
+          logoSrc:
+            "https://banner2.cleanpng.com/20180815/wk/kisspng-manchester-united-f-c-premier-league-logo-footbal-5b74d4dbeeb681.9226406815343833239778.jpg",
+        };
+
+        const ManCity = {
+          name: "Manchester City",
+          logoSrc:
+            "https://lh6.googleusercontent.com/proxy/E90kUxjv2MeRkWh3PZxOGBJ7kAzw2I_mArzif2sVHYIOTL6fdaSuUNcnkwyU7GJfJ_6aIPPaqzwf-5nIsU38L_62ahVFXc5SwhdslyimGgqh0Sh1mteGEFqA9Hr1vQF7Txr7o7JS-Q35_g=s0-d",
+        };
+        return (
+          <div className="App">
+            <Game
+              venue="Old Trafford Stadium"
+              homeTeam={ManUtd}
+              visitingTeam={ManCity}
+            />
+            <Game
+              venue="Santiago Bernabeu Stadium"
+              homeTeam={RMadrid}
+              visitingTeam={Barca}
+            />
+          </div>
+        );
+      }
+
+      ReactDOM.render(<App />, document.getElementById("root"));
+    </script>
+  </body>
+</html>
