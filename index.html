@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="./assets/stylesheet/style.css" />
     <title>React Sports Game</title>
   </head>
   <body>
@@ -82,6 +82,8 @@
             <div className="TeamA">
               <Team name={props.homeTeam.name} logo={props.homeTeam.logoSrc} />
             </div>
+            <div className = "versus">
+              <h1>VS </h1></div>
             <div className="TeamB">
               <Team
                 name={props.visitingTeam.name}
@@ -118,11 +120,14 @@
         };
         return (
           <div className="App">
+          <div className = "Game1">
             <Game
               venue="Old Trafford Stadium"
               homeTeam={ManUtd}
               visitingTeam={ManCity}
             />
+            </div>
+
             <Game
               venue="Santiago Bernabeu Stadium"
               homeTeam={RMadrid}
